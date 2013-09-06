@@ -1,4 +1,1 @@
-vq-collector
-============
-
-SIP Voice Quality reports Collector
+SIP Voice Quality Collector deamon
