@@ -1,9 +1,22 @@
+# Installation directory
 DESTDIR=/opt/vq-collector
+
+# Directory where all needed python modules will be installed
 PYTHON_LIB=$(DESTDIR)/lib/python
+
+# Where the init script will be placed
 INITDIR=$(DESTDIR)/etc/init.d
+
+# Where the main program will be placed
 DAEMONDIR=$(DESTDIR)/usr/sbin
+
+# Where the config file will be placed:
 CONFDIR=$(DESTDIR)/etc
+
+# Ownership:
 USER=root
 GROUP=root
+
+# PID and LOG FILES
 PIDFILE=/var/run/vq-collector.pid
 LOGFILE=/var/log/vq-collector.log
