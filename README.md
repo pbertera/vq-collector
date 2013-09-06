@@ -11,7 +11,7 @@ The PUBLISH body is logged on a local file or trough a remote syslog server
 VQ-Collector is tested on Debian GNU/Linux and OSX 10.7
 
 ## Installation:
-* you need to configure the installation destination editing the file *CONFIG*
+* you need to configure the installation destination editing the *CONFIG* file
 * **DESTDIR** defines the installation directory
 * **PYTHON_LIB** defines the directory where all needed python modules will be installed
 * **INITDIR** defines the directory where the init script will be placed

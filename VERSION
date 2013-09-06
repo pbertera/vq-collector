@@ -1,3 +1,2 @@
 VERSION=0.0.1
-NAME=siplib
-VQ_COLLECTOR_NAME=vq-collector
+NAME=vq-collector

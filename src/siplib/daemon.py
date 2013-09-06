@@ -2,6 +2,9 @@
 # vi:si:et:sw=4:sts=4:ts=4
 # -*- coding: UTF-8 -*-
 # -*- Mode: Python -*-
+#
+# Copyright (c) 2013 Pietro Bertera <pietro@bertera.it>
+# This file is covered by the LGPLv3 or later, read COPYING for details.
 
 import struct
 import socket

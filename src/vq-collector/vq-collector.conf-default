@@ -29,10 +29,10 @@ port = 5060
 ;if you don't define log_file log will be sent to stderr socket
 
 ; log to a file
-;log_file = __LOGFILE__
+log_file = __LOGFILE__
 
 ; enable debug level: use it only during troubleshooting
-debug = True
+debug = False
 
 ; run as daemon, if not true run in foreground
-daemon = False
+daemon = True

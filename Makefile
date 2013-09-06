@@ -67,6 +67,7 @@ dist: build-clean
 	mkdir ${BUILDTARDIR}
 	cp -a src ${BUILDTARDIR}/
 	find ${BUILDTARDIR} -name .svn -type d | xargs rm -r
-	cp changelog TODO CONFIG VERSION INSTALL ${BUILDTARDIR}/
+	find ${BUILDTARDIR} -name .git -type d | xargs rm -r
+	cp changelog TODO CONFIG VERSION INSTALL README.md COPYING ${BUILDTARDIR}/
 	cp Makefile ${BUILDTARDIR}/
 	tar czvf ${BUILDTARDIR}.tgz ${BUILDTARDIR}

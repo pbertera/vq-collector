@@ -1,6 +1,5 @@
 * add a configurable delay before binding (due to STP issue on bridge interfaces)
 * add license headers
-* log message with binding address
 * implement /etc/init.d/vq-collector status
 
 * Split python modules and add setuptools support

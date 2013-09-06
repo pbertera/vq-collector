@@ -2,6 +2,9 @@
 # vi:si:et:sw=4:sts=4:ts=4
 # -*- coding: UTF-8 -*-
 # -*- Mode: Python -*-
+#
+# Copyright (c) 2013 Pietro Bertera <pietro@bertera.it>
+# This file is covered by the LGPLv3 or later, read COPYING for details.
 
 import socket
 import struct
@@ -137,8 +140,8 @@ class CollectorServer:
         try:
             self.sendsock.setsockopt(socket.SOL_SOCKET,
                                      socket.SO_REUSEADDR, 1)
-            # self.sendsock.setsockopt(socket.SOL_SOCKET,
-            #                         socket.SO_REUSEPORT, 1)
+            self.sendsock.setsockopt(socket.SOL_SOCKET,
+                                     socket.SO_REUSEPORT, 1)
         except AttributeError, e:
             pass
         try:
@@ -221,7 +224,7 @@ if __name__ == '__main__':
     # non-common setting
     try:
         port = int(config.get('main', 'port'))
-        logger.debugMessage("Listening to %d port" % int(port))
+        logger.infoMessage("Listening to %d port" % int(port))
     except ConfigParser.NoOptionError:
         port = 5060
 
