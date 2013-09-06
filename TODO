@@ -1,0 +1,15 @@
+* add a configurable delay before binding (due to STP issue on bridge interfaces)
+* add license headers
+* log message with binding address
+* implement /etc/init.d/vq-collector status
+
+* Split python modules and add setuptools support
+* Detailed documentation
+* Debian / RH packaging
+* Debian / RH / General startup script
+
+* PBX integration guides
+* SIP state machine for managing unACKed NOTIFY
+* Logrotate configuration
+
+* Windows port

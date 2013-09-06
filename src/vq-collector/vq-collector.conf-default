@@ -1,0 +1,38 @@
+; main section
+[main]
+
+; specify the local ip address to bind sending SIP messages 
+; dummy automatic discover of local ip (tries reaching google.com)
+local_ip = default
+;
+; define a local ip to use
+;local_ip = 172.16.18.40
+;
+; define interface name
+;local_ip = eth0:1
+
+; specify the PID file
+pid_file = __PIDFILE__
+
+; define listen port
+port = 5060
+
+; log to a remote syslog:
+; syslog syntax is: syslog:ip_server:port:facility
+; here the list of syslog facilities:
+; auth, authpriv, cron, daemon, ftp, kern
+; lpr, mail, news, syslog, user, uucp
+; local0, local1, local2, local3, local4
+; local5, local6, local7
+;log_file = syslog:172.16.18.40:514:daemon
+
+;if you don't define log_file log will be sent to stderr socket
+
+; log to a file
+;log_file = __LOGFILE__
+
+; enable debug level: use it only during troubleshooting
+debug = True
+
+; run as daemon, if not true run in foreground
+daemon = False

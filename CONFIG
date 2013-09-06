@@ -1,0 +1,9 @@
+DESTDIR=/opt/vq-collector
+PYTHON_LIB=$(DESTDIR)/lib/python
+INITDIR=$(DESTDIR)/etc/init.d
+DAEMONDIR=$(DESTDIR)/usr/sbin
+CONFDIR=$(DESTDIR)/etc
+USER=root
+GROUP=root
+PIDFILE=/var/run/vq-collector.pid
+LOGFILE=/var/log/vq-collector.log

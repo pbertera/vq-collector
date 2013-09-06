@@ -1,0 +1,12 @@
+INSTALL steps:
+
+* modify the DESTDIR and other variables in CONFIG
+
+* run "make vq-collector"
+
+* previous command will install: 
+  - the main script in: ${DAEMONDIR}/vq-collector
+  - config file in: ${CONFDIR}/vq-collector.conf
+  - init script in: ${DESTDIR}/etc/init.d/vq-collector
+
+* please read ${DESTDIR}/vq-collector.conf default config file for further information

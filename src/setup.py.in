@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+from distutils.core import setup
+
+setup(name='SIP library',
+      version='__VERSION__',
+      description='SIP and daemonizing utilities',
+      author='Pietro Bertera',
+      author_email='pietro@bertera.it',
+      packages=['siplib']
+      )
