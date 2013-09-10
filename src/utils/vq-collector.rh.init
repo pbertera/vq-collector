@@ -1,0 +1,92 @@
+#!/bin/bash
+#
+# vq-collector  This shell script takes care of starting and stopping
+#               the SIP Voice quality collector daemon: a SIP daemon
+#               receiving Voice quality reports defined by RFC 6035
+#
+# chkconfig: - 80 20
+# description: vq-collector is a SIP server, which is the program \
+#              that receives Voice quality reports sent by VoIP
+#              devices.
+#
+# processname: vq-collector
+# config: __CONFDIR__/vq-collector.conf
+# pidfile: __PIDFILE__
+
+# Source function library.
+. /etc/init.d/functions
+
+RETVAL=0
+PROG="vq-collector"
+DAEMON="__DAEMONDIR__/${PROG}"
+CONFIG="__CONFDIR__/vq-collector.conf"
+OPTS="-s $CONFIG"
+
+export PYTHONPATH=$PYHONPATH:"__PYTHON_LIB__"
+
+checkconf() {
+	if [ -f ${DAEMON} ];then
+		if [ -f ${CONFIG} ];then
+			return
+		fi
+        fi
+        echo -n "Error: Default password in config"
+        echo_failure
+        echo
+        exit 6
+}
+
+
+
+start() {
+	[ "$EUID" != "0" ] && exit 4
+
+	echo -n "Starting $PROG: "
+	checkconf
+	daemon $DAEMON $OPTS
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$PROG
+	return $RETVAL
+}	
+
+stop() {
+	[ "$EUID" != "0" ] && exit 4
+
+	echo -n "Shutting down $PROG: "
+	killproc $PROG
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$PROG
+	return $RETVAL
+}
+
+case "$1" in
+    start)
+		start
+		;;
+    stop)
+		stop
+		;;
+    status)
+		status $PROG
+		;;
+    restart|force-reload)
+		stop
+		start
+		;;
+    reload)
+		;;
+    condrestart|try-restart)
+		if [ -f /var/lock/subsys/$PROG ]; then
+			stop
+			start
+		fi
+		;;
+    *)
+	echo "Usage: $PROG {start|stop|restart|condrestart|try-restart|reload|force-reload|status|usage}"
+	[ "$1" = "usage" ] && exit 0
+	exit 2
+	;;
+esac
+exit $?
