@@ -198,6 +198,11 @@ class SettingsParser:
                 "pid_file"] = self.config.get('main', 'pid_file')
         except ConfigParser.NoOptionError:
             self.common_config["pid_file"] = None
+        
+        try:
+            self.common_config["reply_to_socket"] = self.config.get('main', 'reply_to_socket')
+        except ConfigParser.NoOptionError:
+            self.common_config["reply_to_socket"] = None
 
         return self.common_config
 

@@ -17,6 +17,10 @@ pid_file = __PIDFILE__
 ; define listen port
 port = 5060
 
+; if True all replies will be sent over socket, otherwise
+; remote IP/port will be gathered from the Contact header
+reply_to_socket = False
+
 ; log to a remote syslog:
 ; syslog syntax is: syslog:ip_server:port:facility
 ; here the list of syslog facilities:

@@ -42,10 +42,11 @@ class SendDataError(Exception):
 
 class CollectorServer:
 
-    def __init__(self, local_ip, port=5060):
+    def __init__(self, local_ip, port=5060, reply_to_socket=False):
         self.port = port
         self.local_ip = local_ip
         self.listen_addr = local_ip
+        self.reply_to_socket = reply_to_socket
 
         logger.debugMessage("Local IP: %s" % self.local_ip)
         logger.debugMessage("Listen IP: %s" % self.listen_addr)
@@ -110,7 +111,7 @@ class CollectorServer:
         # Regexp parsing via Header: SIP/2.0/UDP 172.16.18.90:5060;rport
         p = re.compile(r'SIP/(.*)/(.*)\s(.*):([0-9]*);*')
         m = p.search(request.headers['via'])
-
+        
         if m:
             version = m.group(1)
             transport = m.group(2)
@@ -118,12 +119,22 @@ class CollectorServer:
                 UnsupportedSIPVersion(
                     "Unsupported SIP version in Via header: %s" % version)
                 return false
-
-            phone_ip = m.group(3)
-            phone_port = m.group(4)
         else:
             sendDataError("Wrong Via: header")
             return False
+        
+        if self.reply_to_socket == False:
+            p = re.compile(r'<sip:(.*)@(.*):([0-9]+);*(.*)>')
+            m = p.search(request.headers['contact'])
+            if m:
+                phone_ip = m.group(2)
+                phone_port = m.group(3)
+                logger.debugMessage("Phone IP and port from Contact header: %s:%s" %(phone_ip, phone_port))
+        else:
+            phone_ip = remote[0]
+            phone_port = remote[1]
+            logger.debugMessage("Phone IP and port from socket: %s:%d" %(phone_ip, phone_port))
+        
         if transport.upper() == "UDP":
             self.send_response(phone_ip, phone_port, response)
         else:
@@ -216,6 +227,12 @@ if __name__ == '__main__':
         logger.set_level("info")
         logger.debugMessage("Log level: INFO")
 
+    if main_settings["reply_to_socket"].upper() == 'TRUE':
+        logger.debugMessage("All replies will be sent over socket")
+        main_settings["reply_to_socket"] = True
+    else:
+        main_settings["reply_to_socket"] = False
+
     local_ip = main_settings["local_ip"]
 
     if main_settings["conf_log_handler"]:
@@ -228,7 +245,7 @@ if __name__ == '__main__':
     except ConfigParser.NoOptionError:
         port = 5060
 
-    server = CollectorServer(local_ip=local_ip, port=port)
+    server = CollectorServer(local_ip=local_ip, port=port, reply_to_socket=main_settings["reply_to_socket"])
 
     if sys.argv[1] == "-s":
         try:
