@@ -15,6 +15,7 @@ VQ-Collector is tested on Debian GNU/Linux and OSX 10.7
 * **DESTDIR** defines the installation directory
 * **PYTHON_LIB** defines the directory where all needed python modules will be installed
 * **INITDIR** defines the directory where the init script will be placed
+* **TARGET** defines the distributrion where the daemon is installed, supported values: *rh* and *deb*, this affects the init script
 
 After editing the CONFIG file you must run **make vq-collector**
 Now you're ready to configure the collector
@@ -28,6 +29,7 @@ The configuration file contains some directives under the **[main]** section:
 * **log_file**: here you can insert a file path or a syslog definition following this syntax: *syslog:IP_ADDRESS:PORT:FACILITY* 
    
    Eg.: *syslog:172.16.18.99:514:local7* will send all messages to the remote syslog on 172.16.18.99, using the 514 UDP port and the local7 facility.
+* **reply_to_socket**: setting this paramether to True all PUBLISH reply will be sent to the remote IP/port, otherwise IP and port will be extracted from the PUBLISH *Contact* header 
 * **debug**: here you can insert *True* or *False*, use *True* only during debug purpose
 * **daemon**: another boolean value, using *False* the program will start in foreground
 
