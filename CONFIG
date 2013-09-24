@@ -17,6 +17,10 @@ CONFDIR=$(DESTDIR)/etc
 USER=root
 GROUP=root
 
+# Target: your distro (this is for init script)
+# rh,debian
+TARGET=debian
+
 # PID and LOG FILES
 PIDFILE=/var/run/vq-collector.pid
 LOGFILE=/var/log/vq-collector.log

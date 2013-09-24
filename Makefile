@@ -25,7 +25,15 @@ vq-collector-bin:
 	$(do_subst) < src/vq-collector/vq-collector.py > $(BUILDDIR)/vq-collector
 
 vq-collector-init-script:
-	$(do_subst) < src/utils/vq-collector.init > $(BUILDDIR)/vq-collector.init
+	if [ -f  src/utils/vq-collector.$(TARGET).init ];then\
+		$(do_subst) < src/utils/vq-collector.$(TARGET).init > $(BUILDDIR)/vq-collector.init;\
+	else\
+		echo "ERROR: No init script found for $(TARGET) target";\
+	fi;
+	# TODO:
+	#else\
+	#	$(do_subst) < src/utils/vq-collector.lsb.init > $(BUILDDIR)/vq-collector.init;\
+	#fi;
 
 vq-collector-conf:
 	$(do_subst) < src/vq-collector/vq-collector.conf-default > $(BUILDDIR)/vq-collector.conf
