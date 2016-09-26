@@ -47,3 +47,7 @@ Or using the init scritp
 # VQ-Session report syntax:
 
 Reports syntax is defined by [RFC3611](http://tools.ietf.org/html/rfc3611)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pbertera/vq-collector/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
