@@ -15,6 +15,7 @@ import ConfigParser
 import os
 import signal
 import cStringIO
+import importlib
 from string import Template
 
 from siplib import sip
@@ -42,16 +43,24 @@ class SendDataError(Exception):
 
 class CollectorServer:
 
-    def __init__(self, local_ip, port=5060, reply_to_socket=False):
+    def __init__(self, local_ip, port=5060, reply_to_socket=False, feedback_callback=False, feedback_module_dir=None):
         self.port = port
         self.local_ip = local_ip
         self.listen_addr = local_ip
         self.reply_to_socket = reply_to_socket
+        self.feedback_callback = feedback_callback
+        self.feedback_module_dir = feedback_module_dir
 
         logger.debugMessage("Local IP: %s" % self.local_ip)
         logger.debugMessage("Listen IP: %s" % self.listen_addr)
 
         self.recvsocket = self._create_socket()
+        
+        if self.feedback_callback:
+            if self.feedback_module_dir:
+                sys.path.append(os.path.abspath(self.feedback_module_dir))
+            from vq_callback import vq_callback
+            self.vq_callback = vq_callback
 
     def listen(self):
         # Sockets from which we expect to read
@@ -140,7 +149,10 @@ class CollectorServer:
         else:
             UnsupportedSIPTransport("Unsupported Transport in Via: header")
             return False
-
+        if self.feedback_callback:
+            logger.infoMessage("Executing the callback vqcallback()")
+            self.vq_callback((phone_ip, phone_port), request.body)
+    
     def send_response(self, phone_ip, phone_port, response):
         logger.debugMessage("Creating send socket")
         try:
@@ -244,8 +256,28 @@ if __name__ == '__main__':
         logger.infoMessage("Listening to %d port" % int(port))
     except ConfigParser.NoOptionError:
         port = 5060
+    try:
+        feedback_callback = config.get('main', 'feedback_callback')
+        if feedback_callback.upper() == 'TRUE':
+            feedback_callback = True
+        else:
+            feedback_callback = False
+        logger.infoMessage("Feedback callback: %s" % feedback_callback)
+    except ConfigParser.NoOptionError:
+        feedback_callback = False
+    try:
+        feedback_module_dir = config.get('main', 'feedback_module_dir')
+        logger.infoMessage("Feedback module dir: %s" % feedback_module_dir)
+    except ConfigParser.NoOptionError:
+        feedback_module_dir = None
+    
 
-    server = CollectorServer(local_ip=local_ip, port=port, reply_to_socket=main_settings["reply_to_socket"])
+    server = CollectorServer(\
+                local_ip=local_ip, port=port,\
+                reply_to_socket=main_settings["reply_to_socket"],\
+                feedback_callback=feedback_callback,\
+                feedback_module_dir=feedback_module_dir\
+                )
 
     if sys.argv[1] == "-s":
         try:

@@ -4,6 +4,10 @@
 ; specify the local ip address to bind sending SIP messages 
 ; dummy automatic discover of local ip (tries reaching google.com)
 local_ip = default
+
+;feedback_callback = True
+;feedback_module_dir = /tmp/test
+
 ;
 ; define a local ip to use
 ;local_ip = 172.16.18.40
