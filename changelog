@@ -2,7 +2,7 @@ vq-collector (0.0.1-2) stable; urgency=low
 
  * added RH script
  
- --
+ -- Pietro Bertera <pietro@bertera.it>  Mon, 6 Sep 2013 15:24:11 +0100
 
 vq-collector (0.0.1-1) stable; urgency=low
 
